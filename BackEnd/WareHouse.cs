@@ -9,7 +9,7 @@ namespace BackEnd
     public class WareHouse 
     {
         private WareHouseLocation[,] facility;
-        private const int Levels = 3;
+        private const int Levels = 4;
         private const int Locations = 101;
         private int Id;
 
@@ -23,7 +23,7 @@ namespace BackEnd
             catch
             {
                 facility = new WareHouseLocation[Levels, Locations];
-                Id = GetCurrentId();
+                this.Id = 0;
                 for (int level = 1; level < facility.GetLength(0); level++)
                 {
                     for (int locations = 1; locations < facility.GetLength(1); locations++)
@@ -42,7 +42,7 @@ namespace BackEnd
             {
                 for (int locations = 1; locations < facility.GetLength(1); locations++)
                 {
-                    foreach (var box in facility[levels,locations].wareHouseStorage)
+                    foreach (I3DObject box in facility[levels,locations])
                     {
                         currentId = currentId > box.Id ? currentId : box.Id;
                     }
@@ -98,12 +98,24 @@ namespace BackEnd
             return index;
         }
 
-        public string this[int level, int location]
+        public void ShowContent()
+        {
+            for (int levels = 1; levels < this.facility.GetLength(0); levels++)
+            {
+                for (int locations = 1; locations < this.facility.GetLength(1); locations++)
+                {
+                    Console.WriteLine($"Level: {levels} Storage Unit: {locations}");
+                    Console.WriteLine(facility[levels, locations]);
+                }
+            }
+        }
+
+        public WareHouseLocation this[int level, int location]
         {
 
             get
             {
-                return this.facility[level, location].Content().ToString();
+                return this.facility[level, location].Content();
             }
             
         }
@@ -190,6 +202,7 @@ namespace BackEnd
             Stream stream = new FileStream("WareHouse.txt", FileMode.Open, FileAccess.Read);
             IFormatter formatter = new BinaryFormatter();
             WareHouseLocation[,] newFacility = (WareHouseLocation[,])formatter.Deserialize(stream);
+            stream.Close();
 
             return newFacility;
         }

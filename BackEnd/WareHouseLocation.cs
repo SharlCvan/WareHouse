@@ -6,7 +6,7 @@ using System.Text;
 namespace BackEnd
 {
     [Serializable]
-    class WareHouseLocation : IEnumerable<I3DObject>
+    public class WareHouseLocation : IEnumerable<I3DObject>
     {
         internal SortedSet<I3DObject> wareHouseStorage;
         public bool ContaintsFragile { get; set; }
@@ -16,7 +16,7 @@ namespace BackEnd
         public long Width { get; }
         public long Depth { get; }
 
-        public WareHouseLocation()
+        internal WareHouseLocation()
         {
             wareHouseStorage = new SortedSet<I3DObject>(new UtilitySort());
             ContaintsFragile = false;
@@ -26,7 +26,7 @@ namespace BackEnd
             Depth = 100;
             MaxVolume = Height * Width * Depth;
         }
-        public bool TryAdd(I3DObject box)
+        internal bool TryAdd(I3DObject box)
         {            
             if(box.IsFragile && this.MaxWeight < 1000)
             {
@@ -47,7 +47,7 @@ namespace BackEnd
             this.MaxVolume -= box.Volume;
             this.ContaintsFragile = box.IsFragile ? true : false;
         }
-        public WareHouseLocation Content()
+        internal WareHouseLocation Content()
         {
             var storageSpace = new SortedSet<I3DObject>(new UtilitySort());
 
@@ -64,7 +64,7 @@ namespace BackEnd
             return storage;
         }
 
-        public bool RemoveBox(int id)
+        internal bool RemoveBox(int id)
         {
             foreach (var box in wareHouseStorage)
             {
@@ -78,7 +78,7 @@ namespace BackEnd
             return false;
         }
 
-        public bool ContainsId(int id)
+        internal bool ContainsId(int id)
         {
             foreach (var box in wareHouseStorage)
             {
@@ -92,15 +92,12 @@ namespace BackEnd
 
         IEnumerator<I3DObject> IEnumerable<I3DObject>.GetEnumerator()
         {
-            foreach (var storage in wareHouseStorage)
-            {
-                yield return storage;
-            }
+            return this.wareHouseStorage.GetEnumerator();
         }
 
         public IEnumerator GetEnumerator()
         {
-            return this.GetEnumerator();
+            return this.wareHouseStorage.GetEnumerator();
         }
 
         public override string ToString()
