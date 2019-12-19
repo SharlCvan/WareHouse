@@ -4,6 +4,7 @@ using System.Text;
 
 namespace BackEnd
 {
+    [Serializable]
     class Blob : I3DObject
     {
         public int Side { get; }

@@ -5,6 +5,7 @@ using System.Text;
 
 namespace BackEnd
 {
+    [Serializable]
     class WareHouseLocation : IEnumerable<I3DObject>
     {
         internal SortedSet<I3DObject> wareHouseStorage;
@@ -104,7 +105,7 @@ namespace BackEnd
 
         public override string ToString()
         {
-            if(this.wareHouseStorage == default)
+            if(this.wareHouseStorage.Count == 0)
             {
                 return "No boxes in this storage space";
             }

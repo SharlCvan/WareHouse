@@ -9,6 +9,15 @@ namespace TentamenOop
 
         static void Main(string[] args)
         {
+            var boxis = new BoxSpecs(10,1M,"Cube",false);
+            int added = facility.Add(boxis);
+            Console.WriteLine(added);
+            Console.ReadKey();
+
+            Console.WriteLine(facility[1,20]);
+
+            Console.ReadKey();
+
             var box = new BoxSpecs(10,1M,"Cube",false);
             var boxes = new BoxSpecs(20,30,40, 999M, "CubeOid", false);
             var boxer = new BoxSpecs(10, 100M, "Cube", true);
@@ -22,7 +31,9 @@ namespace TentamenOop
 
             facility.Move(1,1,20);
 
-            Console.WriteLine(facility[1,20]);
+            Console.WriteLine(facility[1,1]);
+
+            facility.StoreWareHouse();
 
             Console.ReadKey();
 

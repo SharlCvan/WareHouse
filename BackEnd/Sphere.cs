@@ -4,6 +4,7 @@ using System.Text;
 
 namespace BackEnd
 {
+    [Serializable]
     class Sphere : I3DObject
     {
         public int Radius { get; }

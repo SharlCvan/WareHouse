@@ -4,6 +4,7 @@ using System.Text;
 
 namespace BackEnd
 {
+    [Serializable]
     class CubeOid : I3DObject
     {
         public int Xside { get; }

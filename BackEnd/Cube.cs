@@ -4,6 +4,7 @@ using System.Text;
 
 namespace BackEnd
 {
+    [Serializable]
     class Cube : I3DObject
     {
 

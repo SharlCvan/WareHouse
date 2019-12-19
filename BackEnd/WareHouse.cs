@@ -1,7 +1,11 @@
 ﻿using System;
+using System.Runtime.Serialization;
+using System.Runtime.Serialization.Formatters.Binary;
+using System.IO;
 
 namespace BackEnd
 {
+    [Serializable]
     public class WareHouse 
     {
         private WareHouseLocation[,] facility;
@@ -11,15 +15,41 @@ namespace BackEnd
 
         public WareHouse()
         {
-            facility = new WareHouseLocation[Levels, Locations];
-            Id = 0;
-            for(int level = 1; level < facility.GetLength(0); level++)
+            try
             {
-                for(int locations = 1; locations < facility.GetLength(1); locations++)
+               facility = RetreaveWareHouse();
+               Id = GetCurrentId();
+            }
+            catch
+            {
+                facility = new WareHouseLocation[Levels, Locations];
+                Id = GetCurrentId();
+                for (int level = 1; level < facility.GetLength(0); level++)
                 {
-                    facility[level, locations] = new WareHouseLocation(); 
+                    for (int locations = 1; locations < facility.GetLength(1); locations++)
+                    {
+                        facility[level, locations] = new WareHouseLocation();
+                    }
                 }
             }
+        }
+
+        internal int GetCurrentId()
+        {
+            int currentId = 0;
+
+            for (int levels = 1; levels < facility.GetLength(0); levels++)
+            {
+                for (int locations = 1; locations < facility.GetLength(1); locations++)
+                {
+                    foreach (var box in facility[levels,locations].wareHouseStorage)
+                    {
+                        currentId = currentId > box.Id ? currentId : box.Id;
+                    }
+                }
+            }
+
+            return currentId;
         }
 
         public int Add(BoxSpecs box, int level = 0, int location = 0)
@@ -144,6 +174,24 @@ namespace BackEnd
             }
 
             return shape;
+        }
+
+        public void StoreWareHouse()
+        {
+            IFormatter formatter = new BinaryFormatter();
+            Stream stream = new FileStream("WareHouse.txt", FileMode.Create,FileAccess.Write);
+
+            formatter.Serialize(stream,facility);
+            stream.Close();
+        }
+
+        internal WareHouseLocation[,] RetreaveWareHouse()
+        {
+            Stream stream = new FileStream("WareHouse.txt", FileMode.Open, FileAccess.Read);
+            IFormatter formatter = new BinaryFormatter();
+            WareHouseLocation[,] newFacility = (WareHouseLocation[,])formatter.Deserialize(stream);
+
+            return newFacility;
         }
     }
 }

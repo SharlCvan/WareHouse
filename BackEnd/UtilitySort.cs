@@ -4,6 +4,7 @@ using System.Text;
 
 namespace BackEnd
 {
+    [Serializable]
     class UtilitySort : I3DObject,IComparer<I3DObject>
     {
         public int Id => throw new NotImplementedException();

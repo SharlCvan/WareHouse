@@ -3,6 +3,7 @@ using System;
 
 namespace BackEnd
 {
+    [Serializable]
     public class BoxSpecs
     {
         public int XLength { get; }
