@@ -13,6 +13,11 @@ namespace BackEnd
         public string Description { get; }
         public bool IsFragile { get; }
 
+
+        public BoxSpecs()
+        {
+
+        }
         public BoxSpecs(int xLength, int yLength, int zLength, decimal weight, string description, bool isFragile)
         {
             XLength = xLength;

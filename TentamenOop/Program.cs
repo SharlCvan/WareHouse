@@ -31,26 +31,31 @@ namespace TentamenOop
                     case 1:
                         {
                             //Lägg till ett paket
+                            Presenter.AddBox(facility);
                             break;
                         }
                     case 2:
                         {
                             //Ta bort ett paket
+                            Presenter.RemoveBox(facility);
                             break;
                         }
                     case 3:
                         {
                             //Flytta på ett paket
+                            Presenter.MoveBox(facility);
                             break;
                         }
                     case 4:
                         {
                             //Leta efter paket på ID
+                            Presenter.FindBox(facility);
                             break;
                         }
                     case 5:
                         {
                             //Hämta ut plats och skriv ut
+                            Presenter.RevealStorageContent(facility);
                             break;
                         }
                     case 6:
