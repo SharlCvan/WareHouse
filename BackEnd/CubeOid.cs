@@ -48,5 +48,10 @@ namespace BackEnd
             clone.InsuranceValue = this.InsuranceValue;
             return clone;
         }
+
+        public override string ToString()
+        {
+            return $"{this.Description} ID: {this.Id} Weight: {this.Weight}kg Longest Dimension: {this.MaxDimension} Volume: {this.Volume}";
+        }
     }
 }

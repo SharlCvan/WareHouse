@@ -68,20 +68,59 @@ namespace BackEnd
             return index;
         }
 
-        //ShowContent(int index);
-        public void ShowContent(int level, int location)
+        public string this[int level, int location]
         {
-            WareHouseLocation content = new WareHouseLocation();
-            content = facility[level, location].Content();
 
-            Console.WriteLine();
+            get
+            {
+                return this.facility[level, location].Content().ToString();
+            }
+            
+        }
+        public bool Remove(int id)
+        {
+            int[] storageLocation = Peek(id);
+            int boxLevel = storageLocation[0];
+            int location = storageLocation[1];
+
+            if(this.facility[boxLevel, location].RemoveBox(id))
+            {
+                return true;
+            }
+            return false;
         }
 
-        //Använder sig av metoden content i WareHouseStorage
+        public bool Move(int id, int level, int location)
+        {
+            //Hitta lådans nuvarande plats och ta ut allt innehåll på platsen
+            int[] oldLocation = Peek(id);
+            WareHouseLocation storage = facility[oldLocation[0],oldLocation[1]];
 
-        // public I3DObject Remove(int id)
+            //Ta ut lådan ur nuvarande plats
+            object newBox = -1;
+            I3DObject boxToAdd;
+            bool success = false;
+            foreach (var box in storage.wareHouseStorage)
+            {
+                if(box.Id == id)
+                {
+                    newBox = box.Clone();
+                    boxToAdd = newBox as I3DObject;
+                    //Försök lägga till lådan på ny plats
+                    success = facility[level, location].TryAdd(boxToAdd);
 
-        // public bool Move()
+                    if(success)
+                    {
+                        //Ta bort den gamla lådan
+                        var oldBox = box;
+                        storage.wareHouseStorage.Remove(oldBox);
+                        return success;
+                    }
+                }
+            }
+
+            return success;
+        }
      
         private I3DObject CreateBox(BoxSpecs box)
         {

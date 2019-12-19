@@ -7,7 +7,7 @@ namespace BackEnd
 {
     class WareHouseLocation : IEnumerable<I3DObject>
     {
-        private SortedSet<I3DObject> wareHouseStorage;
+        internal SortedSet<I3DObject> wareHouseStorage;
         public bool ContaintsFragile { get; set; }
         public long MaxVolume { get; set; }
         public decimal MaxWeight { get; set; }
@@ -31,7 +31,7 @@ namespace BackEnd
             {
                 return false;
             }
-            else if(box.MaxDimension < this.Width && box.Weight < this.MaxWeight && box.Volume < this.MaxVolume && this.ContaintsFragile == false)
+            else if(box.MaxDimension < this.Width && box.Weight <= this.MaxWeight && box.Volume < this.MaxVolume && this.ContaintsFragile == false)
             {
                 this.wareHouseStorage.Add(box);
                 ReCalc(box);
@@ -48,7 +48,7 @@ namespace BackEnd
         }
         public WareHouseLocation Content()
         {
-            var storageSpace = new SortedSet<I3DObject>();
+            var storageSpace = new SortedSet<I3DObject>(new UtilitySort());
 
             foreach (var box in this.wareHouseStorage)
             {
@@ -61,6 +61,20 @@ namespace BackEnd
             storage.MaxVolume = this.MaxVolume;
             storage.MaxWeight = this.MaxWeight;
             return storage;
+        }
+
+        public bool RemoveBox(int id)
+        {
+            foreach (var box in wareHouseStorage)
+            {
+                if(box.Id == id)
+                {
+                    I3DObject boxToRemove = box;
+                    this.wareHouseStorage.Remove(boxToRemove);
+                    return true;
+                }
+            }
+            return false;
         }
 
         public bool ContainsId(int id)
@@ -86,6 +100,26 @@ namespace BackEnd
         public IEnumerator GetEnumerator()
         {
             return this.GetEnumerator();
-        }   
+        }
+
+        public override string ToString()
+        {
+            if(this.wareHouseStorage == default)
+            {
+                return "No boxes in this storage space";
+            }
+
+            string storageContent = "Remaining Weight " + this.MaxWeight + " Remaining Volume " + this.MaxVolume + "\nContent:\n";
+            foreach (var box in this.wareHouseStorage)
+            {
+                storageContent += "Id: " + box.Id.ToString();
+                storageContent += " Fragile: " + box.IsFragile.ToString();
+                storageContent += " Weight: " + box.Weight.ToString();
+                storageContent += " Shape: " + box.Description.ToString();
+                storageContent += "\n";
+            }
+
+            return storageContent;
+        }
     }
 }
