@@ -46,7 +46,7 @@ namespace TentamenOop
             while (stayInMenu)
             {
                 Presenter.WareHouseMeny();
-                int userInput = Convert.ToInt32(Console.ReadLine());
+                bool correctInput = int.TryParse(Console.ReadLine(), out int userInput);
 
                 switch(userInput)
                 {
@@ -92,6 +92,7 @@ namespace TentamenOop
                         }
                     default:
                         Console.WriteLine("Incorrect Input");
+                        Console.ReadKey();
                         break;
                 }
                 facility.StoreWareHouse();

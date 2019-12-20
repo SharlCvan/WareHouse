@@ -31,9 +31,9 @@ namespace TentamenOop
             }
 
             Console.WriteLine("Choose the shape of the packet: \n(1): Cube\n(2): CubeOid\n(3): Blob\n(4): Sphere");
-            int menuInput = Convert.ToInt32(Console.ReadLine());
+            bool menuInput = int.TryParse(Console.ReadLine(), out int shapeInput);
             BoxSpecs box = new BoxSpecs();
-            switch (menuInput)
+            switch (shapeInput)
             {
                 case 1:
                     {
@@ -239,7 +239,8 @@ namespace TentamenOop
             }
             else
             {
-                Console.WriteLine("Incorrect input. Try again.");
+                Console.WriteLine("Incorrect input.");
+                return facility;
             }
 
             if(succes)
@@ -248,7 +249,7 @@ namespace TentamenOop
             }
             else
             {
-                Console.WriteLine("Box didnt fit in storage unit");
+                Console.WriteLine("Box didnt fit in storage unit or wasnt found");
             }
             Console.ReadKey();
             return facility;
@@ -262,7 +263,8 @@ namespace TentamenOop
             if(correctId)
             {
                int[] storagePlace = facility.Peek(iD);
-                if(storagePlace != null)
+
+                if(storagePlace[0] != 0 || storagePlace[1] != 0)
                 {
                     Console.WriteLine("Box found on level: {0} in storage unit: {1}",storagePlace[0],storagePlace[1]);
                 }
@@ -287,8 +289,15 @@ namespace TentamenOop
 
             if(correctLevel && correctLocation)
             {
-                WareHouseLocation storageUnit = facility[level, location];
-                PrintStorageUnit(storageUnit);
+                if(level > 0 && level < 4 && location > 0 && location < 101)
+                {
+                    WareHouseLocation storageUnit = facility[level, location];
+                    PrintStorageUnit(storageUnit);
+                }
+                else
+                {
+                    Console.WriteLine("Wrong input.\nWarehouse contains 3 levels and 100 storage units on each level.");
+                }
             }
             else
             {

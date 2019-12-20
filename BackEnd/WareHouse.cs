@@ -125,6 +125,11 @@ namespace BackEnd
             int boxLevel = storageLocation[0];
             int location = storageLocation[1];
 
+            if(boxLevel == 0 || location == 0)
+            {
+                return false;
+            }
+
             if(this.facility[boxLevel, location].RemoveBox(id))
             {
                 return true;
@@ -136,6 +141,12 @@ namespace BackEnd
         {
             //Hitta lådans nuvarande plats och ta ut allt innehåll på platsen
             int[] oldLocation = Peek(id);
+
+            if(oldLocation[0] == 0 || oldLocation[1] == 0)
+            {
+                return false;
+            }
+
             WareHouseLocation storage = facility[oldLocation[0],oldLocation[1]];
 
             //Ta ut lådan ur nuvarande plats
