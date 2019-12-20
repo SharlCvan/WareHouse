@@ -106,6 +106,7 @@ namespace BackEnd
                 {
                     Console.WriteLine($"Level: {levels} Storage Unit: {locations}");
                     Console.WriteLine(facility[levels, locations]);
+                    Console.WriteLine("_________________________________________");
                 }
             }
         }
@@ -181,19 +182,19 @@ namespace BackEnd
             I3DObject shape;
             if (box.Description == "CubeOid")
             {
-                shape = new CubeOid(box.XLength, box.YLength, box.ZLength, Id, box.Weight, box.Description, box.IsFragile);
+                shape = new CubeOid(box.XLength, box.YLength, box.ZLength, Id, box.Weight, box.Description, box.IsFragile, box.InsuranceValue);
             }
             else if (box.Description == "Blob")
             {
-                shape = new Blob(box.XLength, Id, box.Weight, box.Description);
+                shape = new Blob(box.XLength, Id, box.Weight, box.Description, box.InsuranceValue);
             }
             else if (box.Description == "Cube")
             {
-                shape = new Cube(box.XLength, Id, box.Weight, box.Description, box.IsFragile);
+                shape = new Cube(box.XLength, Id, box.Weight, box.Description, box.IsFragile, box.InsuranceValue);
             }
             else
             {
-                shape = new Sphere(box.XLength, Id, box.Weight, box.Description, box.IsFragile);
+                shape = new Sphere(box.XLength, Id, box.Weight, box.Description, box.IsFragile, box.InsuranceValue);
             }
 
             return shape;

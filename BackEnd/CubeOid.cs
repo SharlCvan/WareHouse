@@ -25,7 +25,7 @@ namespace BackEnd
 
         public decimal InsuranceValue { get; set; }
 
-        public CubeOid(int xSide, int ySide, int zSide, int id,decimal weight, string description, bool isFragile)
+        public CubeOid(int xSide, int ySide, int zSide, int id,decimal weight, string description, bool isFragile, decimal insuranceValue)
         {
             Xside = xSide;
             Yside = ySide;
@@ -37,16 +37,15 @@ namespace BackEnd
             Area = 2 * ((xSide * ySide) + (ySide * zSide) + (zSide * xSide));
             Description = description;
             IsFragile = isFragile;
-            InsuranceValue = 0;
+            InsuranceValue = insuranceValue;
         }
 
         public object Clone()
         {
             CubeOid clone = new CubeOid
             (
-                this.Xside, this.Yside, this.Zside, this.Id, this.Weight, this.Description, this.IsFragile
+                this.Xside, this.Yside, this.Zside, this.Id, this.Weight, this.Description, this.IsFragile, this.InsuranceValue
             );
-            clone.InsuranceValue = this.InsuranceValue;
             return clone;
         }
 

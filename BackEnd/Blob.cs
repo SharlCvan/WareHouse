@@ -24,7 +24,7 @@ namespace BackEnd
 
         public decimal InsuranceValue { get; set; }
 
-        public Blob(int side, int id, decimal weight, string description)
+        public Blob(int side, int id, decimal weight, string description, decimal insuranceValue)
         {
             Side = side;
             Id = id;
@@ -34,16 +34,15 @@ namespace BackEnd
             Area = 6 * (side * side);
             Description = description;
             IsFragile = true;
-            InsuranceValue = 0;
+            InsuranceValue = insuranceValue;
         }
 
         public object Clone()
         {
             Blob clone = new Blob
             (
-                this.Side, this.Id, this.Weight, this.Description
+                this.Side, this.Id, this.Weight, this.Description, this.InsuranceValue
             );
-            clone.InsuranceValue = this.InsuranceValue;
             return clone;
         }
 

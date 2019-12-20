@@ -25,7 +25,7 @@ namespace BackEnd
 
         public decimal InsuranceValue { get; set; }
 
-        public Cube(int side, int id, decimal weight, string description, bool isFragile)
+        public Cube(int side, int id, decimal weight, string description, bool isFragile, decimal insuranceValue)
         {
             Side = side;
             Id = id;
@@ -35,7 +35,7 @@ namespace BackEnd
             Area = 6 * (side * side);
             Description = description;
             IsFragile = isFragile;
-            InsuranceValue = 0;
+            InsuranceValue = insuranceValue;
         }
 
         public object Clone()
@@ -43,9 +43,8 @@ namespace BackEnd
 
             Cube clone = new Cube
             (
-                this.Side, this.Id, this.Weight, this.Description, this.IsFragile
+                this.Side, this.Id, this.Weight, this.Description, this.IsFragile,this.InsuranceValue
             );
-            clone.InsuranceValue = this.InsuranceValue;
             return clone;
 
         }

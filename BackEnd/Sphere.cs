@@ -24,7 +24,7 @@ namespace BackEnd
 
         public decimal InsuranceValue { get; set; }
 
-        public Sphere(int radius, int id, decimal weight, string description, bool isFragile)
+        public Sphere(int radius, int id, decimal weight, string description, bool isFragile, decimal insuranceValue)
         {
             Radius = radius;
             Id = id;
@@ -34,7 +34,7 @@ namespace BackEnd
             Area = 6 * ((radius * 2) * (radius * 2));
             Description = description;
             IsFragile = isFragile;
-            InsuranceValue = 0;
+            InsuranceValue = insuranceValue;
         }
 
         public object Clone()
@@ -42,9 +42,8 @@ namespace BackEnd
 
             Sphere clone = new Sphere
             (
-                this.Radius, this.Id, this.Weight, this.Description, this.IsFragile
+                this.Radius, this.Id, this.Weight, this.Description, this.IsFragile, this.InsuranceValue
             );
-            clone.InsuranceValue = this.InsuranceValue;
             return clone;
 
         }

@@ -12,13 +12,14 @@ namespace BackEnd
         public decimal Weight { get;}
         public string Description { get; }
         public bool IsFragile { get; }
+        public decimal InsuranceValue { get; }
 
 
         public BoxSpecs()
         {
 
         }
-        public BoxSpecs(int xLength, int yLength, int zLength, decimal weight, string description, bool isFragile)
+        public BoxSpecs(int xLength, int yLength, int zLength, decimal weight, string description, bool isFragile, decimal insuranceValue)
         {
             XLength = xLength;
             YLength = yLength;
@@ -26,14 +27,16 @@ namespace BackEnd
             Weight = weight;
             Description = description;
             IsFragile = isFragile;
+            InsuranceValue = insuranceValue;
         }
 
-        public BoxSpecs(int xLength, decimal weight, string description, bool isFragile)
+        public BoxSpecs(int xLength, decimal weight, string description, bool isFragile, decimal insuranceValue)
         {
             XLength = xLength;
             Weight = weight;
             Description = description;
             IsFragile = isFragile;
+            InsuranceValue = insuranceValue;
         }
 
        

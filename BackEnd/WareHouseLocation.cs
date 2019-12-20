@@ -114,6 +114,7 @@ namespace BackEnd
                 storageContent += " Fragile: " + box.IsFragile.ToString();
                 storageContent += " Weight: " + box.Weight.ToString();
                 storageContent += " Shape: " + box.Description.ToString();
+                storageContent += "Insurance Value: " + box.InsuranceValue.ToString();
                 storageContent += "\n";
             }
 

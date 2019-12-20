@@ -7,7 +7,6 @@ namespace TentamenOop
 {
     public static class Presenter
     {
-
         public static void WareHouseMeny()
         {
             Console.WriteLine("Welcome to the WareHouse menu system\nChoose an option below\n" +
@@ -38,25 +37,21 @@ namespace TentamenOop
                 case 1:
                     {
                         box = BoxCreator("Cube");
-                        //cube
                         break;
                     }
                 case 2:
                     {
                         box = BoxCreator("CubeOid");
-                        //cubeoid
                         break;
                     }
                 case 3:
                     {
                         box = BoxCreator("Blob");
-                        //blob
                         break;
                     }
                 case 4:
                     {
                         box = BoxCreator("Sphere");
-                        //sphere
                         break;
                     }
                 default:
@@ -118,11 +113,13 @@ namespace TentamenOop
                         bool correctWeight = decimal.TryParse(Console.ReadLine(), out decimal weight);
                         Console.Write("Is the packet fragile?\n(1): Yes (2): No\n");
                         bool correctInput = int.TryParse(Console.ReadLine(), out int input);
+                        Console.Write("What is the insurance Value: ");
+                        bool correctInsurance = decimal.TryParse(Console.ReadLine(),out decimal insuranceValue);
 
-                        if (correctInput && correctLength && correctWeight)
+                        if (correctInput && correctLength && correctWeight && correctInsurance)
                         {
                             bool isFragile = input == 1 ? true : false;
-                            box = new BoxSpecs(length, (decimal)weight, description, isFragile);
+                            box = new BoxSpecs(length, (decimal)weight, description, isFragile, insuranceValue);
                         }
                         else
                         {
@@ -140,13 +137,16 @@ namespace TentamenOop
                         Console.Write("Input dimensions\nSide Z length:");
                         bool correctZLength = int.TryParse(Console.ReadLine(), out int zlength);
                         Console.Write("Weight: ");
-                        bool correctWeight = int.TryParse(Console.ReadLine(), out int weight);
+                        bool correctWeight = decimal.TryParse(Console.ReadLine(), out decimal weight);
                         Console.Write("Is the packet fragile?\n(1): Yes (2): No");
                         bool correctInput = int.TryParse(Console.ReadLine(), out int input);
-                        if (correctInput && correctXLength && correctYLength && correctZLength && correctWeight)
+                        Console.Write("What is the insurance Value: ");
+                        bool correctInsurance = decimal.TryParse(Console.ReadLine(), out decimal insuranceValue);
+
+                        if (correctInput && correctXLength && correctYLength && correctZLength && correctWeight && correctInsurance)
                         {
                             bool isFragile = input == 1 ? true : false;
-                            box = new BoxSpecs(xlength,ylength,zlength, weight, description, isFragile);
+                            box = new BoxSpecs(xlength,ylength,zlength, weight, description, isFragile, insuranceValue);
                         }
                         else
                         {
@@ -160,10 +160,13 @@ namespace TentamenOop
                         Console.Write("Input dimensions\nSide length:");
                         bool correctLength = int.TryParse(Console.ReadLine(), out int length);
                         Console.Write("Weight: ");
-                        bool correctWeight = int.TryParse(Console.ReadLine(), out int weight);
-                        if (correctLength && correctWeight)
+                        bool correctWeight = decimal.TryParse(Console.ReadLine(), out decimal weight);
+                        Console.Write("What is the insurance Value: ");
+                        bool correctInsurance = decimal.TryParse(Console.ReadLine(), out decimal insuranceValue);
+
+                        if (correctLength && correctWeight && correctInsurance)
                         {
-                            box = new BoxSpecs(length, weight, description, true);
+                            box = new BoxSpecs(length, weight, description, true,insuranceValue);
                         }
                         else
                         {
@@ -177,13 +180,16 @@ namespace TentamenOop
                         Console.Write("Input dimensions\nRadius length:");
                         bool correctLength = int.TryParse(Console.ReadLine(), out int length);
                         Console.Write("Weight: ");
-                        bool correctWeight = int.TryParse(Console.ReadLine(), out int weight);
+                        bool correctWeight = decimal.TryParse(Console.ReadLine(), out decimal weight);
                         Console.Write("Is the packet fragile?\n(1): Yes (2): No");
                         bool correctInput = int.TryParse(Console.ReadLine(), out int input);
-                        if (correctInput && correctLength && correctWeight)
+                        Console.Write("What is the insurance Value: ");
+                        bool correctInsurance = decimal.TryParse(Console.ReadLine(), out decimal insuranceValue);
+
+                        if (correctInput && correctLength && correctWeight && correctInsurance)
                         {
                             bool isFragile = input == 1 ? true : false;
-                            box = new BoxSpecs(length, weight, description, isFragile);
+                            box = new BoxSpecs(length, weight, description, isFragile, insuranceValue);
                         }
                         else
                         {
@@ -225,7 +231,7 @@ namespace TentamenOop
 
         public static WareHouse MoveBox(WareHouse facility)
         {
-            Console.Write("Input box ID");
+            Console.Write("Input box ID: ");
             bool correctId = int.TryParse(Console.ReadLine(), out int iD);
             Console.Write("Input which level the box should be moved to: ");
             bool correctLevel = int.TryParse(Console.ReadLine(), out int level);
@@ -313,13 +319,14 @@ namespace TentamenOop
 
         public static void PrintWareHouse(WareHouse warehouse)
         {
+            Console.Clear();
             warehouse.ShowContent();
             Console.ReadKey();
         }
 
         public static bool Quit()
         {
-            Console.WriteLine("Quitin simulation");
+            Console.WriteLine("Quiting simulation");
             return false;
         }
     }
