@@ -5,16 +5,38 @@ namespace TentamenOop
 {
     class Program
     {
-        //public static WareHouse facility = new WareHouse();
-
         static void Main(string[] args)
         {
             WareHouse facility = new WareHouse();
 
-            //Test(facility);
+            // testMove(facility);
+            //facility = testAdd(facility);
             //Console.ReadKey();
+            //facility = testMove(facility);
 
             Start(facility);
+        }
+
+        private static WareHouse testAdd(WareHouse facility)
+        {
+            BoxSpecs box = new BoxSpecs(3,2.2M,"Cube",false);
+            BoxSpecs box1 = new BoxSpecs(5, 1.2M, "Cube", false);
+            BoxSpecs box2 = new BoxSpecs(2, 2.2M, "Cube", false);
+            BoxSpecs box3 = new BoxSpecs(3, 3.2M, "Cube", false);
+
+            facility.Add(box);
+            facility.Add(box1);
+            facility.Add(box2);
+            facility.Add(box3);
+
+            return facility;
+
+        }
+
+        private static WareHouse testMove(WareHouse facility)
+        {
+            facility.Move(1,2,3);
+            return facility;
         }
 
         private static void Start(WareHouse facility)
@@ -68,8 +90,12 @@ namespace TentamenOop
                             stayInMenu = Presenter.Quit();
                             break;
                         }
+                    default:
+                        Console.WriteLine("Incorrect Input");
+                        break;
                 }
                 facility.StoreWareHouse();
+                Console.Clear();
             }
         }
 

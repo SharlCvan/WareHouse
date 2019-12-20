@@ -9,9 +9,9 @@ namespace BackEnd
     public class WareHouseLocation : IEnumerable<I3DObject>
     {
         internal SortedSet<I3DObject> wareHouseStorage;
-        public bool ContaintsFragile { get; set; }
-        public long MaxVolume { get; set; }
-        public decimal MaxWeight { get; set; }
+        internal bool ContaintsFragile { get; set; }
+        internal long MaxVolume { get; set; }
+        internal decimal MaxWeight { get; set; }
         public long Height { get; }
         public long Width { get; }
         public long Depth { get; }

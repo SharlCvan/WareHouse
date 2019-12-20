@@ -15,8 +15,21 @@ namespace TentamenOop
                 "\n(4): Search for packet\n(5): Retreave storage unit\n(6): Show all storage units\n(7): Quit");
         }
 
-        public static void AddBox(WareHouse facility)
+        public static WareHouse AddBox(WareHouse facility)
         {
+            Console.WriteLine("Do you want to add the box to a specific location?\n(1): Yes\n(2): No\n");
+            bool addToLocation = int.TryParse(Console.ReadLine(),out int input);
+            int[] location = new int[2];
+            if (addToLocation && input == 1)
+            {
+                location = GetLocation();
+            }
+            else if(!addToLocation)
+            {
+                Console.WriteLine("Incorrect input");
+                return facility;
+            }
+
             Console.WriteLine("Choose the shape of the packet: \n(1): Cube\n(2): CubeOid\n(3): Blob\n(4): Sphere");
             int menuInput = Convert.ToInt32(Console.ReadLine());
             BoxSpecs box = new BoxSpecs();
@@ -48,26 +61,120 @@ namespace TentamenOop
                     }
                 default:
                     Console.WriteLine("Incorrec input");
-                    return;
+                    return facility;
             }
             if(box == null)
             {
-                Console.WriteLine("Couldnt add box");
+                Console.WriteLine("Couldnt add box due to error in user input");
             }
             else
             {
-                Console.WriteLine("Box was added succesfully");
+                int boxId = facility.Add(box,location[0],location[1]);
+
+                if(boxId == -1)
+                {
+                    Console.WriteLine("Box could not be added, storage space is full or contains fragile box");
+                }
+                else
+                {
+                    Console.WriteLine("Box was added succesfully. Box Id: {0}", boxId);
+                }
+            }
+            Console.ReadKey();
+            return facility;
+        }
+
+        private static int[] GetLocation()
+        {
+            while (true)
+            {
+                Console.Write("Input which level to add the box to: ");
+                bool correctLevel = int.TryParse(Console.ReadLine(), out int level);
+                Console.Write("Input which storage unit to add the box to: ");
+                bool correctLocation = int.TryParse(Console.ReadLine(), out int location);
+
+                if (correctLevel && correctLocation)
+                {
+                    int[] levelAndLocation = { level, location };
+                    return levelAndLocation;
+                }
+                else
+                {
+                    Console.WriteLine("Incorrect input of level or location. Try Again");
+                }
             }
         }
 
         private static BoxSpecs BoxCreator(string description)
         {
-
+            BoxSpecs box = new BoxSpecs();
             switch(description)
             {
                 case "Cube":
                     {
                         Console.Write("Input dimensions\nSide length:");
+                        bool correctLength = int.TryParse(Console.ReadLine(), out int length);
+                        Console.Write("Weight: ");
+                        bool correctWeight = decimal.TryParse(Console.ReadLine(), out decimal weight);
+                        Console.Write("Is the packet fragile?\n(1): Yes (2): No\n");
+                        bool correctInput = int.TryParse(Console.ReadLine(), out int input);
+
+                        if (correctInput && correctLength && correctWeight)
+                        {
+                            bool isFragile = input == 1 ? true : false;
+                            box = new BoxSpecs(length, (decimal)weight, description, isFragile);
+                        }
+                        else
+                        {
+                            Console.WriteLine("Incorrect measurements");
+                            return box;
+                        }
+                        break;
+                    }
+                case "CubeOid":
+                    {
+                        Console.Write("Input dimensions\nSide X length:");
+                        bool correctXLength = int.TryParse(Console.ReadLine(), out int xlength);
+                        Console.Write("Input dimensions\nSide Y length:");
+                        bool correctYLength = int.TryParse(Console.ReadLine(), out int ylength);
+                        Console.Write("Input dimensions\nSide Z length:");
+                        bool correctZLength = int.TryParse(Console.ReadLine(), out int zlength);
+                        Console.Write("Weight: ");
+                        bool correctWeight = int.TryParse(Console.ReadLine(), out int weight);
+                        Console.Write("Is the packet fragile?\n(1): Yes (2): No");
+                        bool correctInput = int.TryParse(Console.ReadLine(), out int input);
+                        if (correctInput && correctXLength && correctYLength && correctZLength && correctWeight)
+                        {
+                            bool isFragile = input == 1 ? true : false;
+                            box = new BoxSpecs(xlength,ylength,zlength, weight, description, isFragile);
+                        }
+                        else
+                        {
+                            Console.WriteLine("Incorrect measurements");
+                            return box;
+                        }
+                        break;
+                    }
+                case "Blob":
+                    {
+                        Console.Write("Input dimensions\nSide length:");
+                        bool correctLength = int.TryParse(Console.ReadLine(), out int length);
+                        Console.Write("Weight: ");
+                        bool correctWeight = int.TryParse(Console.ReadLine(), out int weight);
+                        if (correctLength && correctWeight)
+                        {
+                            box = new BoxSpecs(length, weight, description, true);
+                        }
+                        else
+                        {
+                            Console.WriteLine("Incorrect measurements");
+                            return box;
+                        }
+                        break;
+                    }
+                case "Sphere":
+                    {
+                        Console.Write("Input dimensions\nRadius length:");
                         bool correctLength = int.TryParse(Console.ReadLine(), out int length);
                         Console.Write("Weight: ");
                         bool correctWeight = int.TryParse(Console.ReadLine(), out int weight);
@@ -76,30 +183,20 @@ namespace TentamenOop
                         if (correctInput && correctLength && correctWeight)
                         {
                             bool isFragile = input == 1 ? true : false;
-                            BoxSpecs cube = new BoxSpecs(length, weight, "Cube", isFragile);
+                            box = new BoxSpecs(length, weight, description, isFragile);
                         }
                         else
                         {
                             Console.WriteLine("Incorrect measurements");
+                            return box;
                         }
                         break;
                     }
-                case "CubeOid":
-                    {
-                        break;
-                    }
-                case "Blob":
-                    {
-                        break;
-                    }
-                case "Sphere":
-                    {
-                        break;
-                    }
             }
+            return box;
         }
 
-        public static void RemoveBox(WareHouse facility)
+        public static WareHouse RemoveBox(WareHouse facility)
         {
             Console.Write("Input id of box to remove: ");
             bool correctId = int.TryParse(Console.ReadLine(), out int iD);
@@ -122,9 +219,11 @@ namespace TentamenOop
             {
                 Console.WriteLine("Box not found");
             }
+            Console.ReadKey();
+            return facility;
         }
 
-        public static void MoveBox(WareHouse facility)
+        public static WareHouse MoveBox(WareHouse facility)
         {
             Console.Write("Input box ID");
             bool correctId = int.TryParse(Console.ReadLine(), out int iD);
@@ -151,6 +250,8 @@ namespace TentamenOop
             {
                 Console.WriteLine("Box didnt fit in storage unit");
             }
+            Console.ReadKey();
+            return facility;
         }
 
         public static void FindBox(WareHouse facility)
@@ -174,24 +275,42 @@ namespace TentamenOop
             {
                 Console.WriteLine("Box ID was in incorrext format");
             }
+            Console.ReadKey();
         }
 
         public static void RevealStorageContent(WareHouse facility)
         {
             Console.Write("Input Level: ");
-            int level = Convert.ToInt32(Console.ReadLine()); 
+            bool correctLevel = int.TryParse(Console.ReadLine(), out int level); 
             Console.Write("Input location: ");
-            int location = Convert.ToInt32(Console.ReadLine());
-            Console.WriteLine(facility[level,location]);
+            bool correctLocation = int.TryParse(Console.ReadLine(), out int location);
+
+            if(correctLevel && correctLocation)
+            {
+                WareHouseLocation storageUnit = facility[level, location];
+                PrintStorageUnit(storageUnit);
+            }
+            else
+            {
+                Console.WriteLine("Incorrect level and location");
+            }
+            Console.ReadKey();
+        }
+
+        private static void PrintStorageUnit(WareHouseLocation storageUnit)
+        {
+            Console.WriteLine(storageUnit);
         }
 
         public static void PrintWareHouse(WareHouse warehouse)
         {
             warehouse.ShowContent();
+            Console.ReadKey();
         }
 
         public static bool Quit()
         {
+            Console.WriteLine("Quitin simulation");
             return false;
         }
     }
