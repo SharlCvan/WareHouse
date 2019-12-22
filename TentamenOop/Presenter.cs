@@ -23,6 +23,11 @@ namespace TentamenOop
             {
                 location = GetLocation();
             }
+            else if(addToLocation && input < 1 || input > 2)
+            {
+                Console.WriteLine("Incorrect input");
+                return facility;
+            }
             else if(!addToLocation)
             {
                 Console.WriteLine("Incorrect input");
@@ -58,7 +63,7 @@ namespace TentamenOop
                     Console.WriteLine("Incorrec input");
                     return facility;
             }
-            if(box == null)
+            if(box.Weight == 0 || box.XLength == 0)
             {
                 Console.WriteLine("Couldnt add box due to error in user input");
             }
