@@ -100,15 +100,23 @@ namespace BackEnd
 
         public void ShowContent()
         {
+            Console.ForegroundColor = ConsoleColor.Green;
+
             for (int levels = 1; levels < this.facility.GetLength(0); levels++)
             {
+                Console.WriteLine("Level {0,-3} ",levels);
+                Console.WriteLine("_____________________________");
+
                 for (int locations = 1; locations < this.facility.GetLength(1); locations++)
                 {
-                    Console.WriteLine($"Level: {levels} Storage Unit: {locations}");
+                    Console.WriteLine("Storage Unit {0,-3} ", locations);
                     Console.WriteLine(facility[levels, locations]);
-                    Console.WriteLine("_________________________________________");
                 }
+                Console.ForegroundColor = levels == 1 ? ConsoleColor.Red : ConsoleColor.Blue;
+                Console.ReadKey();
+                Console.Clear();
             }
+            Console.ForegroundColor = ConsoleColor.White;
         }
 
         public WareHouseLocation this[int level, int location]
@@ -194,9 +202,8 @@ namespace BackEnd
             }
             else
             {
-                shape = new Sphere(box.XLength, Id, box.Weight, box.Description, box.IsFragile, box.InsuranceValue);
+                shape = new Sphere((box.XLength * 2), Id, box.Weight, box.Description, box.IsFragile, box.InsuranceValue);
             }
-
             return shape;
         }
 

@@ -104,17 +104,16 @@ namespace BackEnd
         {
             if(this.wareHouseStorage.Count == 0)
             {
-                return "No boxes in this storage space";
+                return "No boxes in this storage space ";
             }
 
-            string storageContent = "Remaining Weight " + this.MaxWeight + " Remaining Volume " + this.MaxVolume + "\nContent:\n";
+            string storageContent = "Remaining Weight " + this.MaxWeight + "kg Remaining Volume " + this.MaxVolume + " cubic cm\nContent:\n";
             foreach (var box in this.wareHouseStorage)
             {
                 storageContent += "Id: " + box.Id.ToString();
                 storageContent += " Fragile: " + box.IsFragile.ToString();
                 storageContent += " Weight: " + box.Weight.ToString();
-                storageContent += " Shape: " + box.Description.ToString();
-                storageContent += "Insurance Value: " + box.InsuranceValue.ToString();
+                storageContent += "kg Shape: " + box.Description.ToString();
                 storageContent += "\n";
             }
 
